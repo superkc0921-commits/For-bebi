@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For my bebi 🥺</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 300px;
+            position: relative;
+        }
+
+        h1 { color: #d63384; font-size: 1.5rem; }
+        
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        #yesBtn { background-color: #4cd137; color: white; }
+        #noBtn { background-color: #ff4757; color: white; position: relative; }
+
+        .cat-img { width: 150px; margin-bottom: 10px; }
+        .hidden { display: none; }
+        
+        .final-heart { font-size: 3rem; animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="main-content">
+            <h1 id="questionText">sorry na, bebi🥺</h1>
+            <div class="btn-group">
+                <button id="yesBtn">Forgiven</button>
+                <button id="noBtn">no</button>
+            </div>
+        </div>
+
+        <div id="success-screen" class="hidden">
+            <h1 style="font-size: 2.5rem;">🫂</h1>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MDJ9IbxxvDUQM/giphy.gif" class="cat-img" alt="Cat Kiss">
+            <h1>I love youuu!❤️❤️❤️</h1>
+        </div>
+    </div>
+
+    <script>
+        const questionText = document.getElementById('questionText');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainContent = document.getElementById('main-content');
+        const successScreen = document.getElementById('success-screen');
+
+        let phase = 1; // 1: Initial, 2: Weh?, 3: Hindi nga?
+
+        yesBtn.addEventListener('click', () => {
+            if (phase === 1) {
+                phase = 2;
+                questionText.innerText = "weh?";
+                yesBtn.innerText = "yes";
+                noBtn.innerText = "no";
+                resetNoButton();
+            } else if (phase === 2) {
+                phase = 3;
+                questionText.innerText = "hindi nga?";
+                yesBtn.innerText = "yes";
+                noBtn.innerText = "no";
+                resetNoButton();
+            } else if (phase === 3) {
+                showSuccess();
+            }
+        });
+
+        noBtn.addEventListener('click', () => {
+            if (phase === 1) {
+                questionText.innerText = "sorry na pleaseeee";
+            }
+            moveButton();
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+            // Only start jumping once they've been told "pleaseeee" or if they are stubborn
+            if (questionText.innerText === "sorry na pleaseeee" || phase > 1) {
+                moveButton();
+            }
+        });
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // If they clicked 'no' on phase 1, change text
+            if (phase === 1) {
+                questionText.innerText = "sorry na pleaseeee";
+            }
+        }
+
+        function resetNoButton() {
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '0';
+            noBtn.style.top = '0';
+        }
+
+        function showSuccess() {
+            mainContent.classList.add('hidden');
+            successScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
